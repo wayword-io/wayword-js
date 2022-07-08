@@ -1,0 +1,160 @@
+<!-- 
+    Licensed on Apache 2.0 with love. Copyright 2022 Chris Larcombe.
+ -->
+ 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Wayword Converter</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://unpkg.com/h3-js"></script>
+<script src="../dist/wayword.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+<style>
+    body
+    {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+
+</style>
+
+
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>Wayword Converter <small><small>by Chris Larcombe</small></small></h1>
+        Using <a href="../dist/wayword-digits.txt">Wayword digits</a>. Checksum: <div id="checksumIndicator" style="display:inline;">loading...</div>
+      </div>
+
+    <h3>Encode (➡️ wayword)</h3><br>
+
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="basic-addon1">Lat, Lon</span>
+        <input id="thelatlon" type="text" class="form-control" placeholder="e.g., 51.507351, -0.127758" aria-describedby="basic-addon1" oninput="clearh3index()">
+    </div>
+
+    <font color="gray">or</font> 
+
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="basic-addon1">H3 Index</span>
+        <input id="theh3index" type="text" class="form-control" placeholder="8e195da49a2db9f" aria-describedby="basic-addon1" oninput="clearlatlon()">
+    </div>
+
+    <br>
+
+    <button id="encode" class="btn btn-default">Encode</button>
+    
+    <br><br>
+
+    <span class="label label-info">Wayword</span>
+    <div class="alert alert-info" role="alert" id="outputWayword"><font color="gray">enter coordinates or H3 index above and click encode</font></div>
+
+    <br>
+    <h3>Decode (⬅️ wayword)</h3><br>
+
+    <div class="input-group input-group-lg">
+        <span class="input-group-addon" id="basic-addon1"><i>wayword</i></span>
+        <input id="waywordInput" type="text" class="form-control" placeholder="e.g., love-wins or love-wins-again" aria-describedby="basic-addon1">
+    </div>
+
+    <br>
+
+    <button id="decode" class="btn btn-default">Decode</button>
+
+    <br><br>
+
+    <span class="label label-info">Coordinates</span>
+    <div class="alert alert-info" role="alert" id="coords"><font color="gray">enter a wayword above and click decode</font></div>
+
+    <span class="label label-info">H3 Index</span>
+    <div class="alert alert-info" role="alert" id="h3Index"><font color="gray">enter a wayword above and click decode</font></div>
+
+
+    <script>
+        let ww = new Wayword('../dist/wayword-digits.txt', function(pass, checksum)
+        {
+            checksumIndicator.innerHTML = checksum;
+
+            if (pass)
+            {
+                checksumIndicator.style.color = 'green';
+                checksumIndicator.innerHTML += ' ✅';
+            }
+            else
+            {
+                checksumIndicator.style.color = 'red';
+                checksumIndicator.innerHTML += ' ❌';
+                alert('Warning! Wayword digit list checksum failed. This means the digit list may have been modified and could cause incorrect wayword translation.')
+            }
+        });
+        
+        function clearlatlon()
+        {
+            thelatlon.value = "";
+        }
+
+        function clearh3index()
+        {
+            theh3index.value = "";
+        }
+
+        decode.onclick = function()
+        {
+            try
+            {
+                var wayword = waywordInput.value.toLowerCase().trim();
+                wayword = wayword.replace(/(\s|\-)+/g, '-');
+                waywordInput.value = wayword;
+
+                if (wayword.match(/^[a-z]+(\-[a-z]+){0,2}$/))
+                {
+                    let c = ww.wordToGeo(wayword);
+
+                    coords.innerHTML = '<a href="http://www.openstreetmap.org/?mlat='+c[0]+'&mlon='+c[1]+'&zoom=3" target="_new">'+c.join(', ')+'</a>';
+
+                    let i = ww.wordToH3(wayword);
+
+                    h3Index.innerHTML = '<a href="https://observablehq.com/@nrabinowitz/h3-index-inspector?collection=@nrabinowitz/h3#'+i+'" target="_new">'+i+'</a>';
+                }
+                else
+                {
+                    alert('Invalid wayword!')
+                }
+
+            }catch(e){console.error(e); alert('Error. Could not decode: '+e+'.')}
+        }
+
+        encode.onclick = function()
+        {
+            try
+            {
+                
+                if (theh3index.value != "")
+                {
+                    outputWayword.innerHTML = '<b>' +ww.h3ToWord(theh3index.value)+ '</b>';
+                }
+                else if (thelatlon.value != "")
+                {
+                    let v = thelatlon.value;
+                    v = v.replace(/\s/g, '');
+                    v = v.split(',');
+                    outputWayword.innerHTML ='<b>' + ww.geoToWord(parseFloat(v[0]), parseFloat(v[1]) ) + '</b>';
+                }
+
+            }catch(e){console.error(e); alert('Error. Could not encode: '+e)}
+
+        }
+
+
+    </script>
+</body>
+</html>
+
