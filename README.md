@@ -10,7 +10,7 @@ The Wayword project uses [H3](https://h3geo.org/) to represent planetary locatio
 
 The Wayword digit list has been compiled from multiple freely available public dictionaries and optimised for general public use. The code includes an integrity check when initialised, which performs a SHA-256 checksum of the digit list file. The hash of the file contents should be as follows:
 
-[Wayword Digit List](https://raw.githubusercontent.com/wayword-io/wayword/main/dist/wayword-digits.txt) SHA-256 hash: `3ec021c9ae0680b03ee3bded829c6367c3433b84084ee53404fcdfa2daf6c438` ([checksum file](https://raw.githubusercontent.com/wayword-io/wayword/main/dist/wayword-digits.sha256))
+[Wayword Digit List](https://raw.githubusercontent.com/wayword-io/wayword-js/main/dist/wayword-digits.txt) SHA-256 hash: `3ec021c9ae0680b03ee3bded829c6367c3433b84084ee53404fcdfa2daf6c438` ([checksum file](https://raw.githubusercontent.com/wayword-io/wayword-js/main/dist/wayword-digits.sha256))
 
 Wayword is open-source and fully non-propriatory, including the digit list. The project is made available under the Apache 2.0 license.
 
