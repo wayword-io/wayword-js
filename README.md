@@ -49,13 +49,18 @@ Wayword is open-source and fully non-propriatory, including the digit list. The 
 
 # Develop
 
-1. Clone this repository or download the zip of the repository.
+Have fun!
 
-2. Run an HTTP server from the project directory.
+## Example Converter
+
+1. Clone this repository or download the zip of the repository and extract it, to create project directory (wayword-js).
+
+2. Run an HTTP server from the downloaded project directory.
 
 e.g.,
 
 ```bash
+cd wayword-js
 npm i http-server
 http-server
 ```
@@ -63,6 +68,33 @@ http-server
 3. Open http://localhost:8080/example/ in your browser.
 
 4. Experiment with the provided interface, which uses unminified `wayword.js` source file.
+
+5. For an even simpler example to play with, check out http://localhost:8080/example/simple.html
+
+
+## Regular Expressions
+
+1. Detecting if a string is a wayword:
+
+```javascript
+let input_string = "one-two-three";
+
+if (input_string.match(/^[a-z]+(\-[a-z]+){0,2}$/))
+    console.log("input string could be a wayword!");
+```
+
+2. Extracting a wayword from a sentence:
+
+```javascript
+let input_string = "See you at one-two-three!";
+let m = input_string.match(/([A-Za-z]+-)([A-Za-z]+-)([A-Za-z]+)/);
+
+if (m)
+{
+    let wayword = m[1]+m[2]+m[3];
+    console.log("detected wayword:", wayword);
+}
+```
 
 # Browser
 
@@ -76,8 +108,8 @@ Then instantiate the library, providing a URL to `wayword-digits.txt`, ensuring 
 
 ```javascript
 const wayword = "love-wins-again"
-const coords = [62.341270779476226, -49.350597882533464]
-const h3Index = "8e06c823588b437"
+const coords = [63.2076385105399, -51.302117974401725]
+const h3Index = "8e06ca1042739af"
 
 const ww = new Wayword('wayword-digits.txt', function(pass, checksum)
 {

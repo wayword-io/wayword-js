@@ -1,0 +1,23 @@
+
+<script src="https://unpkg.com/h3-js"></script>
+<script src="../dist/wayword.min.js"></script>
+
+<script>
+    const wayword = "love-wins-again"
+    const coords = [63.2076385105399, -51.302117974401725]
+    const h3Index = "8e06ca1042739af"
+
+    const ww = new Wayword('../dist/wayword-digits.txt', function(pass, checksum)
+    {
+        console.log('correct:', pass)
+        console.log('digit list checksum:', checksum)
+
+        if (pass)
+        {
+            console.log( ww.geoToWord(coords[0], coords[1]) )
+            console.log( ww.wordToGeo(wayword) )
+            console.log( ww.h3ToWord(h3Index) )
+            console.log( ww.wordToH3(wayword) ) 
+        }
+    });
+</script>
