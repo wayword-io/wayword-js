@@ -169,8 +169,8 @@ function Wayword(digitsFile, checksumCallback)
         }
 
         let ab = to_base(out - b*max - b, 7);
-        ab = shuffle(ab);
         let abab = '0'.repeat(14-ab.length) + ab;
+        abab = shuffle(abab);
         let newBin = '10001110';
         let bb = to_base(b, 2);
         let bbb = '0'.repeat(7-bb.length) + bb;
