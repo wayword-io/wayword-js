@@ -126,7 +126,17 @@ function Wayword(digitsFile, checksumCallback)
             return a + parseInt(i, 2).toString(16);
         }, '')
     }
-    
+
+    function shuffle(s)
+    {
+        s = s.split('');
+        let pairs = [];
+        for (let i = 0; i < s.length; i+= 2) {
+            pairs.push(`${s[i] + s[i+1]}`)
+        }
+        return pairs.reverse().join('');
+    }
+
     function indexToWord(h3Index)
     {
         const bin = '0000' + BigInt('0x' + h3Index).toString(2);
@@ -136,9 +146,10 @@ function Wayword(digitsFile, checksumCallback)
         for (let i = 19; i <= 58; i += 3)
             x += from_base(bin.substring(i,i+3), 2);
 
+        x = shuffle(x);
         return to_base_43576(baseCell*from_base('6'.repeat(14), 7) + from_base(x, 7) + baseCell);
     }
-
+    
     function wordToIndex(w)
     {
         const max = from_base('6'.repeat(14), 7);
@@ -158,6 +169,7 @@ function Wayword(digitsFile, checksumCallback)
         }
 
         let ab = to_base(out - b*max - b, 7);
+        ab = shuffle(ab);
         let abab = '0'.repeat(14-ab.length) + ab;
         let newBin = '10001110';
         let bb = to_base(b, 2);

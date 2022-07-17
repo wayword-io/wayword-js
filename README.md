@@ -129,7 +129,7 @@ If the callback returns true (first parameter `pass`) then Wayword is ready to b
 
 # About
 
-The Wayword algorithm uses H3 to convert geographical coordinates to an H3 index. The H3 index is then translated into a non-unique base 7 number, which is then combined with 1 of 122 different numbers corresponding to H3 hexagon bases (resolution 0) to produce a unique base 10 number for the hexagon (or pentagon, technically, though there are not many). The base 10 number can be thought of a non-hierarchical index for cells on resolution 14.
+The Wayword algorithm uses H3 to convert geographical coordinates to an H3 index. The H3 index is then translated into a non-unique base 7 number, which is then shuffled and combined with 1 of 122 different numbers corresponding to H3 hexagon bases (resolution 0) to produce a unique base 10 number for the hexagon (or pentagon, technically, though there are not many). The base 10 number can be thought of a non-hierarchical index for cells on resolution 14.
 
 The unique base 10 number is then converted into a unique base 43576 number associated with a list of 43576 'words' acting as digits, using the following algorithm:
 
@@ -193,7 +193,7 @@ The method used in Wayword is different and therefore no such equations are used
 
 See **About** section above for more details.
 
-Another noteworthy difference at the point of writing is that the Wayword algorithm does not attempt to make a combination of words more unique between neighbouring cells. In fact, the algorithm does precisely the opposite, and neighbouring cells are likely to involve similar digits. Waywords also contain between 1 and 3 digits ('words'), so unlike What3Words the output is not always '3 words'.
+Another noteworthy difference is that Waywords also contain between 1 and 3 digits ('words'), so unlike What3Words the output is not always '3 words'.
 
 While the idea of representing locations as arbitrary words itself is not novel, we give credit and acknowledgement to What3Words for inspiring this project and popularising the meme.
 
