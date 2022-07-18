@@ -74,7 +74,7 @@ http-server
 
 ## Regular Expressions
 
-1. Detecting if a string is a wayword:
+1. Detecting if a string is a wayword (correct format):
 
 ```javascript
 let input_string = "one-two-three";
@@ -83,7 +83,7 @@ if (input_string.match(/^[a-z]+(\-[a-z]+){0,2}$/))
     console.log("input string could be a wayword!");
 ```
 
-2. Extracting a wayword from a sentence:
+2. Extracting a (potential) wayword from a sentence:
 
 ```javascript
 let input_string = "See you at one-two-three!";
@@ -92,7 +92,7 @@ let m = input_string.match(/([A-Za-z]+-)([A-Za-z]+-)([A-Za-z]+)/);
 if (m)
 {
     let wayword = m[1]+m[2]+m[3];
-    console.log("detected wayword:", wayword);
+    console.log("detected potential wayword:", wayword);
 }
 ```
 
