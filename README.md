@@ -108,8 +108,8 @@ Then instantiate the library, providing a URL to `wayword-digits.txt`, ensuring 
 
 ```javascript
 const wayword = "love-wins-again"
-const coords = [63.2076385105399, -51.302117974401725]
-const h3Index = "8e06ca1042739af"
+const coords = [74.17273453354373, -23.998183321918876]
+const h3Index = "8e07ab8743020cf"
 
 const ww = new Wayword('wayword-digits.txt', function(pass, checksum)
 {
